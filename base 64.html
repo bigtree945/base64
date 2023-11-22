@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h1{
+        text-align: center;
+      }
+      .box{
+        margin: 50px;
+        padding: 10px;
+        border: 1px solid;
+        
+      }
+      p {
+        border: 1px solid;
+        min-height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>vmess 协议修改参数</h1>
+    <div class="box">
+      <input
+        type="text"
+        placeholder="请输入要解码的内容"
+        id="decode_input"
+      /><button id="decode_button">解码</button>
+      <div>
+        <span>解码后的内容（三击可选中内容）：</span>
+        <p id="after_decode"></p>
+      </div>
+    </div>
+    <div class="box">
+      <input
+        type="text"
+        placeholder="请输入要编码的内容"
+        id="encode_input"
+      /><button id="encode_button">编码</button>
+      <div>
+        <span>编码后的内容（三击可选中节点）：</span>
+        <p id="after_encode"></p>
+      </div>
+    </div>
+  </body>
+  <script>
+    // 获取 decode_button 元素
+    document.querySelector("#decode_button").onclick = function () {
+      // 获取输入框的值
+      let value = document.querySelector("#decode_input").value;
+      // 以双斜杠分组
+      value = value.split("//");
+      // 使用 window 的 atob 方法进行 base64 解码
+      let result = (protocol = window.atob(value[1]));
+      // 渲染到 p 标签中
+      document.querySelector("#after_decode").innerHTML = result;
+    };
+    // 获取 after_encode 元素
+    document.querySelector("#encode_button").onclick = function () {
+      // 获取协议
+      let protocol = "vmess://"
+      // 获取输入框的值
+      let value = document.querySelector("#encode_input").value;
+      // 使用 window 方法 btoa 进行 base64 编码，编码后拼接协议
+      let result = protocol + btoa(`${value}`);
+      // 渲染到 p 标签中
+      document.querySelector("#after_encode").innerHTML = result;
+    };
+    // 编译中文
+    // encodeURIComponent("中文")
+    // 解码中文
+    // decodeURIComponent("%E4%B8%AD%E6%96%87")
+  </script>
+</html>
